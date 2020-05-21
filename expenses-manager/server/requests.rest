@@ -1,0 +1,50 @@
+POST http://localhost:8080/api/users
+Content-Type: application/json
+
+{
+        "name": "Staiko Dafov",
+        "email": "skdafov1@abv.bg",
+        "password": "staiki"
+}
+
+###
+
+GET http://localhost:8080/api/users
+
+###
+
+GET http://localhost:8080/api/users/5ec654c2c5855a72c9e935c1
+###
+
+DELETE  http://localhost:8080/api/users/5ec694d6190cc01c3ae6a65d
+###
+
+PATCH http://localhost:8080/api/users/5ec6639b83517b79a0ba4b57
+Content-Type: application/json
+
+{
+        "name": "Staiko Krasimirov Dafov"
+}
+###
+
+POST http://localhost:8080/api/account/signin
+Content-Type: application/json
+
+{
+        "email": "ajabaja16@gmail.com",
+        "password": "asdQWE123$"
+}
+
+###
+
+GET http://localhost:8080/api/account/logout
+Content-Type: application/json
+
+{
+        "token": "5ec6962091f9021d14fc29ae"
+}
+
+###
+
+GET http://localhost:8080/api/account/verify
+Authorization: Bearer 5ec6c6e5f6fce925f51b70c4
