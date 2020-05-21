@@ -3,6 +3,7 @@
 # dependencies
 expenses-manager/node_modules
 expenses-manager/.pnp
+expenses-manager/server/node_modules
 expenses-manager/.pnp.js
 
 # testing
