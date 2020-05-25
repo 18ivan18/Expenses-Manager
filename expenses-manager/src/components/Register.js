@@ -49,7 +49,7 @@ const Register = ({ auth, setLoading }) => {
       return;
     }
     setLoading();
-    fetch("http://localhost:8080/api/users", {
+    fetch("http://192.168.100.11:8080/api/users", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -89,22 +89,23 @@ const Register = ({ auth, setLoading }) => {
         className="z-depth-1 grey lighten-4 row"
         style={{
           height: "800px",
+          width: "800px",
           display: "inline-block",
           padding: "32px 48px 0px 48px",
           border: "1px solid #EEE",
         }}
       >
         {auth.loading && (
-          <div class="preloader-wrapper active">
-            <div class="spinner-layer spinner-red-only">
-              <div class="circle-clipper left">
-                <div class="circle"></div>
+          <div className="preloader-wrapper active">
+            <div className="spinner-layer spinner-red-only">
+              <div className="circle-clipper left">
+                <div className="circle"></div>
               </div>
-              <div class="gap-patch">
-                <div class="circle"></div>
+              <div className="gap-patch">
+                <div className="circle"></div>
               </div>
-              <div class="circle-clipper right">
-                <div class="circle"></div>
+              <div className="circle-clipper right">
+                <div className="circle"></div>
               </div>
             </div>
           </div>

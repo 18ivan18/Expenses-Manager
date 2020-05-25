@@ -1,10 +1,6 @@
 const mongoose = require("mongoose");
 
 const userSessionSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    default: "",
-  },
   timestamp: {
     type: Date,
     default: Date.now(),
@@ -13,9 +9,11 @@ const userSessionSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  expire_at: { 
-    type: Date, 
-    default: Date.now, 
-    expires: 7200 },
+  expire_at: {
+    type: Date,
+    default: Date.now,
+    expires: 7200,
+  },
+  token: { type: String, required: true },
 });
 module.exports = mongoose.model("userSession", userSessionSchema);

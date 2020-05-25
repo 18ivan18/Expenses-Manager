@@ -2,10 +2,13 @@ const express = require("express");
 const router = express.Router();
 const Session = require("../../models/sessionSchema");
 const User = require("../../models/userSchema");
-const mongoose = require("mongoose");
+const jwt = require("jsonwebtoken");
+
+const dotenv = require("dotenv");
+dotenv.config();
 
 router.post("/signin", (req, res) => {
-  console.log("req body", req.body);
+  // console.log("req body", req.body);
   let { email, password } = req.body;
   if (!email) {
     return res.status(500).json({
@@ -24,15 +27,8 @@ router.post("/signin", (req, res) => {
   User.find(
     {
       email: email,
-    },
-    (err, users) => {
-      if (err) {
-        console.log("err 2:", err);
-        return res.json({
-          success: false,
-          message: "Error: server error",
-        });
-      }
+    }).then(
+    (users) => {
       if (users.length != 1) {
         return res.json({
           success: false,
@@ -43,12 +39,15 @@ router.post("/signin", (req, res) => {
       if (!user.validPassword(password)) {
         return res.json({
           success: false,
-          message: "Error: Invalid",
+          message: "Error: wrong password",
         });
       }
       // Otherwise correct user
+      const accessToken = jwt.sign({ userID: user._id }, process.env.ACESS_TOKEN_SECRET, {
+        expiresIn: 7200
+      });
       const userSession = new Session({
-        userId: user._id,
+        token: accessToken,
       });
       userSession
         .save()
@@ -56,7 +55,7 @@ router.post("/signin", (req, res) => {
           return res.json({
             success: true,
             message: "Valid sign in",
-            token: doc._id,
+            token: accessToken,
             user: user,
           });
         })
@@ -68,7 +67,13 @@ router.post("/signin", (req, res) => {
           });
         });
     }
-  );
+  ).catch(err => {
+    console.log("err 2:", err);
+        return res.json({
+          success: false,
+          message: "Error: server error" + err.errmsg,
+        });
+  });
 });
 
 router.get("/verify", (req, res) => {
@@ -83,7 +88,7 @@ router.get("/verify", (req, res) => {
   }
   // Verify the token is one of a kind and it's not deleted.
   Session.find({
-    _id: token,
+    token: token,
     isDeleted: false,
   })
     .then((sessions) => {
@@ -94,13 +99,23 @@ router.get("/verify", (req, res) => {
         });
       } else {
         // DO ACTION
-        User.findById(sessions[0].userId).then((user) => {
-          return res.status(200).json({
-            success: true,
-            message: "Good",
-            token: sessions[0].userId,
-            user: user,
-          });
+        jwt.verify(token, process.env.ACESS_TOKEN_SECRET, (err, user) => {
+          if (err) {
+            return res.sendStatus(403);
+          }
+          console.log(user);
+          User.findById(user.userID).then((userFound) => {
+            // console.log(userFound)
+            return res.status(200).json({
+              success: true,
+              message: "Good",
+              token: token,
+              user: userFound,
+            });
+          }).catch(err => res.status(500).json({
+            success: false,
+            message: "No such user",
+          }));
         });
       }
     })
@@ -115,11 +130,18 @@ router.get("/verify", (req, res) => {
 
 router.get("/logout", (req, res) => {
   // Get the token
-  const { token } = req.body;
+  const authHeader = req.headers["authorization"];
+  const token = authHeader && authHeader.split(" ")[1];
+  if (token == null) {
+    return res.status(403).json({
+      success: false,
+      message: "Error: No authentication token sent",
+    });
+  }
   // Verify the token is one of a kind and it's not deleted.
   Session.findOneAndUpdate(
     {
-      _id: token,
+      token: token,
       isDeleted: false,
     },
     {
@@ -135,7 +157,7 @@ router.get("/logout", (req, res) => {
     })
     .catch((err) => {
       console.log(err);
-      return res.send({
+      return res.json({
         success: false,
         message: "Error: Server error",
       });

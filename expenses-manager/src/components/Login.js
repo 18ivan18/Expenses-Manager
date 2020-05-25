@@ -1,13 +1,17 @@
 /* eslint-disable jsx-a11y/alt-text */
 import React, { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { connect } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import Logo from "../assests/logo.jpg";
 import "../css/Login.css";
 import { setInStorage } from "../utils/storage";
-import { login, setLoading } from "../features/users/AuthSlice";
+import { login, setLoading, selectAuth } from "../features/users/AuthSlice";
 
-const Login = ({ auth, login, setLoading }) => {
+const Login = () => {
+
+  const auth = useSelector(selectAuth);
+  const dispatch = useDispatch();
+
   const validator = require("email-validator");
 
   const useFormFields = (initialValues) => {
@@ -38,8 +42,8 @@ const Login = ({ auth, login, setLoading }) => {
     e.preventDefault();
     setLoginState({ ...loginState, submitted: true });
     if (emailValid() && passwordValid()) {
-      setLoading();
-      fetch("http://localhost:8080/api/account/signin", {
+      dispatch(setLoading());
+      fetch("http://192.168.100.11:8080/api/account/signin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -51,19 +55,19 @@ const Login = ({ auth, login, setLoading }) => {
       })
         .then((res) => res.json())
         .then((json) => {
-          console.log("json", json);
+          // console.log("json", json);
           if (json.success) {
-            login({ loggedIn: true, user: json.user, token: json.token });
+            dispatch(login({ loggedIn: true, user: json.user, token: json.token }));
             setInStorage('the_main_app', { token: json.token });    
-            setLoading();
-            history.push("/");
+            dispatch(setLoading());
+            history.push(`/profile/${json.user._id}`);
           } else {
             setLoginState({
               ...loginState,
               loginError: json.message,
               submitted: true,
             });
-            setLoading();
+            dispatch(setLoading());
           }
         });
     }
@@ -174,15 +178,4 @@ const Login = ({ auth, login, setLoading }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-const mapDispatchToProps = (dispatch) => {
-  return {
-    login: (email, pass, token) => dispatch(login(email, pass, token)),
-    setLoading: () => dispatch(setLoading()),
-  };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Login);
+export default Login;

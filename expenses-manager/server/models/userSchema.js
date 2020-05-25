@@ -8,14 +8,13 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true },
   profilePicture: {
     type: String,
-    required: false,
     default:
       "https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg",
   },
   gender: { type: String, enum: ["M", "F"] },
-  role: { type: String, enum: ["user", "admin"] },
-  description: { type: String, maxLength: 512 },
-  validity: { type: String, enum: ["active", "suspended", "deactivated"] },
+  role: { type: String, default: "user", enum: ["user", "admin"] },
+  description: { type: String, default:"", maxLength: 512 },
+  validity: { type: String, default: "active", enum: ["active", "suspended", "deactivated"] },
   registerDate: { type: Date, default: Date.now() },
   modificationDate: { type: Date, default: Date.now() },
 });

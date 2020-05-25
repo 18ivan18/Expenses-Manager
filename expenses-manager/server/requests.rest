@@ -4,26 +4,30 @@ Content-Type: application/json
 {
         "name": "Staiko Dafov",
         "email": "skdafov1@abv.bg",
-        "password": "staiki"
+        "password": "asdQWE123$"
 }
 
 ###
 
 GET http://localhost:8080/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWM5MjMyMGMyYmJkZDBhZGNhNGEyNWQiLCJpYXQiOjE1OTAyNDAwNzAsImV4cCI6MTU5MDI0NzI3MH0.fWYf1eHxlMpxOLkS3MuvxvAL2OHrVq9JOakqDwAEklE
 
 ###
 
-GET http://localhost:8080/api/users/5ec654c2c5855a72c9e935c1
+GET http://localhost:8080/api/users/5ec92320c2bbdd0adca4a25d
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWM5MjMyMGMyYmJkZDBhZGNhNGEyNWQiLCJpYXQiOjE1OTAyNDAwNzAsImV4cCI6MTU5MDI0NzI3MH0.fWYf1eHxlMpxOLkS3MuvxvAL2OHrVq9JOakqDwAEklE
+
 ###
 
 DELETE  http://localhost:8080/api/users/5ec694d6190cc01c3ae6a65d
 ###
 
-PATCH http://localhost:8080/api/users/5ec6639b83517b79a0ba4b57
+PATCH http://localhost:8080/api/users/5ec7e54abd51bf53ab73a616
 Content-Type: application/json
 
 {
-        "name": "Staiko Krasimirov Dafov"
+        "name": "Ivan Zhivkov Arabadzhiyski",
+        "description": "Mnogo qk user"
 }
 ###
 
@@ -31,7 +35,7 @@ POST http://localhost:8080/api/account/signin
 Content-Type: application/json
 
 {
-        "email": "ajabaja16@gmail.com",
+        "email": "skdafov1@abv.bg",
         "password": "asdQWE123$"
 }
 
@@ -47,4 +51,4 @@ Content-Type: application/json
 ###
 
 GET http://localhost:8080/api/account/verify
-Authorization: Bearer 5ec6c6e5f6fce925f51b70c4
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InByb2ZpbGVQaWN0dXJlIjoiaHR0cHM6Ly9pbWFnZS5zaHV0dGVyc3RvY2suY29tL2ltYWdlLXZlY3Rvci9tYWxlLXNpbGhvdWV0dGUtYXZhdGFyLXByb2ZpbGUtcGljdHVyZS0yNjBudy0xOTkyNDYzODIuanBnIiwiZ2VuZGVyIjoiTSIsInJvbGUiOiJ1c2VyIiwiZGVzY3JpcHRpb24iOiIiLCJ2YWxpZGl0eSI6ImFjdGl2ZSIsInJlZ2lzdGVyRGF0ZSI6IjIwMjAtMDUtMjJUMTI6NDY6NDAuMDgxWiIsIm1vZGlmaWNhdGlvbkRhdGUiOiIyMDIwLTA1LTIyVDEyOjQ2OjQwLjA4MVoiLCJfaWQiOiI1ZWM3YzliODBjM2ZkNDQ2MjQ1ODlhMjAiLCJuYW1lIjoiU3RhaWtvIERhZm92IiwiZW1haWwiOiJza2RhZm92MUBhYnYuYmciLCJwYXNzd29yZCI6IiQyYSQwOCRtY1JlWEM4RHljczBQZHhhdHYyNEtPbUlUUUYzMXhwbjVNTXc0NHhyL3MuTHdmemQxcThIeSIsIl9fdiI6MH0sImlhdCI6MTU5MDE1MjE5MH0.E0e6MbafRtP5G5OwCCGjVO5tz-G3IkdxlqrZz5NRTJA
