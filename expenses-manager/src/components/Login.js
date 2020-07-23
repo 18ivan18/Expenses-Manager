@@ -1,17 +1,14 @@
 /* eslint-disable jsx-a11y/alt-text */
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useHistory } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
 import Logo from "../assests/logo.jpg";
 import "../css/Login.css";
 import { setInStorage } from "../utils/storage";
-import { login, setLoading, selectAuth } from "../features/users/AuthSlice";
+import { clearMessage, loginUser } from "../features/users/AuthSlice";
+import { changeLoading } from "../features/loading/loadingSlice";
+import { connect } from "react-redux";
 
-const Login = () => {
-
-  const auth = useSelector(selectAuth);
-  const dispatch = useDispatch();
-
+const Login = ({ auth, changeLoading, clearMessage, loginUser }) => {
   const validator = require("email-validator");
 
   const useFormFields = (initialValues) => {
@@ -26,50 +23,32 @@ const Login = () => {
     password: "",
   });
 
-  const [loginState, setLoginState] = useState({
-    submitted: false,
-    loginSuccessful: false,
-    loginError: "",
-  });
+  useEffect(() => {
+    clearMessage();
+  }, [])
 
   const history = useHistory();
+
+  useEffect(() => {
+    if (auth.loggedIn) {
+      setInStorage("the_main_app", { token: auth.token });
+      history.push(`/profile/${auth.user._id}`);
+      //TODO toast
+    }
+  }, [auth]);
 
   const emailValid = () => validator.validate(formFields.email);
 
   const passwordValid = () => formFields.password.length >= 8;
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setLoginState({ ...loginState, submitted: true });
     if (emailValid() && passwordValid()) {
-      dispatch(setLoading());
-      fetch("http://192.168.100.11:8080/api/account/signin", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
+      changeLoading();
+        loginUser({
           email: formFields.email,
           password: formFields.password,
-        }),
-      })
-        .then((res) => res.json())
-        .then((json) => {
-          // console.log("json", json);
-          if (json.success) {
-            dispatch(login({ loggedIn: true, user: json.user, token: json.token }));
-            setInStorage('the_main_app', { token: json.token });    
-            dispatch(setLoading());
-            history.push(`/profile/${json.user._id}`);
-          } else {
-            setLoginState({
-              ...loginState,
-              loginError: json.message,
-              submitted: true,
-            });
-            dispatch(setLoading());
-          }
-        });
+        }).then(() => changeLoading());
     }
   };
 
@@ -97,10 +76,9 @@ const Login = () => {
         <div className="section"></div>
 
         <div className="container">
-          {emailValid() && passwordValid() && !loginState.loginSuccessful && (
+          {auth.message && (
             <div style={{ fontSize: "13px" }} className="red-text small">
-              The username and password you entered did not match our records.
-              Please double-check and try again. {loginState.loginError}
+              {auth.message}
             </div>
           )}
           <form className="col s12" method="post">
@@ -119,7 +97,7 @@ const Login = () => {
                   onChange={createChangeHandler}
                 />
                 <label htmlFor="email">Enter your email</label>
-                {loginState.submitted && !emailValid() && (
+                {formFields.email && !emailValid() && (
                   <div
                     style={{ fontSize: "13px" }}
                     className="red-text small right-align"
@@ -141,7 +119,7 @@ const Login = () => {
                   onChange={createChangeHandler}
                 />
                 <label htmlFor="password">Enter your password</label>
-                {loginState.submitted && !passwordValid() && (
+                {formFields.password && !passwordValid() && (
                   <div
                     style={{ fontSize: "13px" }}
                     className="red-text small right-align"
@@ -151,7 +129,7 @@ const Login = () => {
                 )}
               </div>
               <label style={{ float: "right" }}>
-                <Link className="pink-text">
+                <Link className="pink-text" to="">
                   <b>Forgot Password?</b>
                 </Link>
               </label>
@@ -177,5 +155,16 @@ const Login = () => {
     </center>
   );
 };
+const mapStateToProps = (state) => ({
+  auth: state.auth,
+});
 
-export default Login;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    changeLoading: () => dispatch(changeLoading()),
+    loginUser: (user) => dispatch(loginUser(user)),
+    clearMessage: () => dispatch(clearMessage())
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Login);

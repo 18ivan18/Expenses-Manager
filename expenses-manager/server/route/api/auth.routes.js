@@ -8,18 +8,17 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 router.post("/signin", (req, res) => {
-  // console.log("req body", req.body);
   let { email, password } = req.body;
   if (!email) {
     return res.status(500).json({
       success: false,
-      message: "Error: Email cannot be blank.",
+      message: "Email cannot be blank.",
     });
   }
   if (!password) {
     return res.status(500).send({
       success: false,
-      message: "Error: Password cannot be blank.",
+      message: "Password cannot be blank.",
     });
   }
   email = email.toLowerCase();
@@ -32,14 +31,14 @@ router.post("/signin", (req, res) => {
       if (users.length != 1) {
         return res.json({
           success: false,
-          message: "Error: Invalid",
+          message: "Invalid email.",
         });
       }
       const user = users[0];
       if (!user.validPassword(password)) {
         return res.json({
           success: false,
-          message: "Error: wrong password",
+          message: "Wrong password.",
         });
       }
       // Otherwise correct user
@@ -60,7 +59,6 @@ router.post("/signin", (req, res) => {
           });
         })
         .catch((err) => {
-          console.log(err);
           return res.json({
             success: false,
             message: "Error: server error",
@@ -68,7 +66,6 @@ router.post("/signin", (req, res) => {
         });
     }
   ).catch(err => {
-    console.log("err 2:", err);
         return res.json({
           success: false,
           message: "Error: server error" + err.errmsg,
@@ -77,6 +74,7 @@ router.post("/signin", (req, res) => {
 });
 
 router.get("/verify", (req, res) => {
+  ("req body", req.body);
   // Get the token
   const authHeader = req.headers["authorization"];
   const token = authHeader && authHeader.split(" ")[1];
@@ -93,7 +91,7 @@ router.get("/verify", (req, res) => {
   })
     .then((sessions) => {
       if (sessions.length != 1) {
-        return res.json({
+        return res.status(403).json({
           success: false,
           message: "Error: Invalid",
         });
@@ -103,9 +101,9 @@ router.get("/verify", (req, res) => {
           if (err) {
             return res.sendStatus(403);
           }
-          console.log(user);
+          (user);
           User.findById(user.userID).then((userFound) => {
-            // console.log(userFound)
+            // (userFound)
             return res.status(200).json({
               success: true,
               message: "Good",
@@ -120,7 +118,6 @@ router.get("/verify", (req, res) => {
       }
     })
     .catch((err) => {
-      console.log(err);
       return res.json({
         success: false,
         message: "Error: Server error",
@@ -156,7 +153,6 @@ router.get("/logout", (req, res) => {
       });
     })
     .catch((err) => {
-      console.log(err);
       return res.json({
         success: false,
         message: "Error: Server error",

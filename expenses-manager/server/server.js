@@ -19,6 +19,9 @@ app.use(express.json());
 app.use("/api/users", require("./route/api/user.routes"));
 app.use("/api/account", require("./route/api/auth.routes"));
 app.use("/api/balanceChanges", require("./route/api/balance.changes.routes"));
+app.use("/api/groups", require("./route/api/group.routes"));
+app.use("/api/invites", require("./route/api/invites.routes"));
+app.use("/api/kickstarters", require("./route/api/kickstarter.routes"));
 
 
 
@@ -35,7 +38,8 @@ app.use((err, req, res, next) => {
   res.status(err.status || 500);
   res.json({
     message: err.message,
-    error: err.error || err || {}
+    error: err.error || err || {},
+    success: false
   });
 });
 

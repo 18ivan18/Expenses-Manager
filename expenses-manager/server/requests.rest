@@ -2,32 +2,36 @@ POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
-        "name": "Staiko Dafov",
-        "email": "skdafov1@abv.bg",
-        "password": "asdQWE123$"
+        "name": "Rosina Georgieva",
+        "email": "rosi@gmail.com",
+        "password": "asdQWE123$",
+        "gender": "F"
 }
 
 ###
 
 GET http://localhost:8080/api/users
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWM5MjMyMGMyYmJkZDBhZGNhNGEyNWQiLCJpYXQiOjE1OTAyNDAwNzAsImV4cCI6MTU5MDI0NzI3MH0.fWYf1eHxlMpxOLkS3MuvxvAL2OHrVq9JOakqDwAEklE
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIyNTcyNDAsImV4cCI6MTU5MjI2NDQ0MH0.Pn4hxHmzxmXlqDXqPbamAZGawyIsvqf3irlettI23bw
 
 ###
 
-GET http://localhost:8080/api/users/5ec92320c2bbdd0adca4a25d
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWM5MjMyMGMyYmJkZDBhZGNhNGEyNWQiLCJpYXQiOjE1OTAyNDAwNzAsImV4cCI6MTU5MDI0NzI3MH0.fWYf1eHxlMpxOLkS3MuvxvAL2OHrVq9JOakqDwAEklE
+GET http://localhost:8080/api/users/5eca77f38c4e1b2eb17ecdd7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIyNTcyNDAsImV4cCI6MTU5MjI2NDQ0MH0.Pn4hxHmzxmXlqDXqPbamAZGawyIsvqf3irlettI23bw
 
 ###
 
 DELETE  http://localhost:8080/api/users/5ec694d6190cc01c3ae6a65d
 ###
 
-PATCH http://localhost:8080/api/users/5ec7e54abd51bf53ab73a616
+PATCH http://localhost:8080/api/users/5ecaa4cda2b40f194ac9fb75
 Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTAzMzgzODMsImV4cCI6MTU5MDM0NTU4M30.WbEB7rqg23zGZp3liynvm0N0aacDpRpXRp4GKotsqLI
 
 {
-        "name": "Ivan Zhivkov Arabadzhiyski",
-        "description": "Mnogo qk user"
+        "name": "Staiko Krasimirov Dafov",
+        "description": "Mnogo qk user",
+        "role": "admin",
+        "gender": "other"
 }
 ###
 
@@ -35,7 +39,7 @@ POST http://localhost:8080/api/account/signin
 Content-Type: application/json
 
 {
-        "email": "skdafov1@abv.bg",
+        "email": "rosi@gmail.com",
         "password": "asdQWE123$"
 }
 
@@ -52,3 +56,110 @@ Content-Type: application/json
 
 GET http://localhost:8080/api/account/verify
 Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7InByb2ZpbGVQaWN0dXJlIjoiaHR0cHM6Ly9pbWFnZS5zaHV0dGVyc3RvY2suY29tL2ltYWdlLXZlY3Rvci9tYWxlLXNpbGhvdWV0dGUtYXZhdGFyLXByb2ZpbGUtcGljdHVyZS0yNjBudy0xOTkyNDYzODIuanBnIiwiZ2VuZGVyIjoiTSIsInJvbGUiOiJ1c2VyIiwiZGVzY3JpcHRpb24iOiIiLCJ2YWxpZGl0eSI6ImFjdGl2ZSIsInJlZ2lzdGVyRGF0ZSI6IjIwMjAtMDUtMjJUMTI6NDY6NDAuMDgxWiIsIm1vZGlmaWNhdGlvbkRhdGUiOiIyMDIwLTA1LTIyVDEyOjQ2OjQwLjA4MVoiLCJfaWQiOiI1ZWM3YzliODBjM2ZkNDQ2MjQ1ODlhMjAiLCJuYW1lIjoiU3RhaWtvIERhZm92IiwiZW1haWwiOiJza2RhZm92MUBhYnYuYmciLCJwYXNzd29yZCI6IiQyYSQwOCRtY1JlWEM4RHljczBQZHhhdHYyNEtPbUlUUUYzMXhwbjVNTXc0NHhyL3MuTHdmemQxcThIeSIsIl9fdiI6MH0sImlhdCI6MTU5MDE1MjE5MH0.E0e6MbafRtP5G5OwCCGjVO5tz-G3IkdxlqrZz5NRTJA
+
+
+###
+
+
+POST http://localhost:8080/api/balanceChanges
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWVjZWUzMjVmNGQ3OTM3YmE1NTBmYTgiLCJpYXQiOjE1OTI4NTgyMDIsImV4cCI6MTU5Mjg2NTQwMn0.8Mm47e63CBHJkRZAkPhYsPPYTNrwrciEXshS_32n6k4
+
+{
+        "type": "income",
+        "category": "Джобни пари от мама.",
+        "categoryPicture": "https://wowgold-uk.com/wp-content/uploads/2020/04/1565382001-1373.jpg",
+        "amount": 400,
+        "description": "Пари от мама за месеца."
+}
+###
+
+GET http://localhost:8080/api/balanceChanges/income/5eca830ccabc6e3570d39efd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTA0MTgyMDcsImV4cCI6MTU5MDQyNTQwN30.3wCz6sITdk_J0-vZn30LiYg7FB8GMW2HpSJh47NRfnc
+
+###
+
+GET http://localhost:8080/api/balanceChanges/payment/5eca830ccabc6e3570d39efd
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTA0MDgzNDgsImV4cCI6MTU5MDQxNTU0OH0.E7G3KzHsE6iMTgtFSGmLqgBAiYuZNq3CUr9obUNELA4
+
+
+###
+GET http://localhost:8080/api/balanceChanges/5ee80525991b946108e2bbbb
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIyNjQ0ODQsImV4cCI6MTU5MjI3MTY4NH0.RaRyn2Va3debJv0a5LZScl-nwHVkapuD5RIjPVRkMXE
+
+###
+DELETE http://localhost:8080/api/balanceChanges/5eca8335cabc6e3570d39eff
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTA0MTgyMDcsImV4cCI6MTU5MDQyNTQwN30.3wCz6sITdk_J0-vZn30LiYg7FB8GMW2HpSJh47NRfnc
+
+###
+PATCH http://localhost:8080/api/balanceChanges/5ee80525991b946108e2bbbb
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIyNjQ0ODQsImV4cCI6MTU5MjI3MTY4NH0.RaRyn2Va3debJv0a5LZScl-nwHVkapuD5RIjPVRkMXE
+
+{
+        "description": "20 kinta ot vankata za podarak za gri6ata"
+}
+
+###
+POST http://localhost:8080/api/groups/
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+
+{
+        "name": "pari za tok",
+        "goal": 120,
+        "participents": ["5eca77f38c4e1b2eb17ecdd7", "5eca830ccabc6e3570d39efd"],
+        "description": "Trqbva da si platime toka"
+}
+
+###
+GET http://localhost:8080/api/groups/5ee7f0b8481817568b645ca6
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+
+###
+GET http://localhost:8080/api/groups/byUser/5eca77f38c4e1b2eb17ecdd7
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+
+###
+PUT http://localhost:8080/api/groups/5ee7f0b8481817568b645ca6
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+
+{
+        "name": "Pari za rojden den",
+        "description": "Trqbva da kupime na gri6o podarak",
+        "payments": ["5ee80525991b946108e2bbbb"]
+}
+
+###
+POST http://localhost:8080/api/invites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+Content-Type: application/json
+
+{
+        "groupId":"5ee7f0b8481817568b645ca6",
+        "userId": "5ee87b076919ba6e2c89ab17"
+}
+
+###
+POST http://localhost:8080/api/invites
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+###
+GET http://localhost:8080/api/invites/5ee87b076919ba6e2c89ab17
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTIzMjI2NTQsImV4cCI6MTU5MjMyOTg1NH0.wnI3Mv5LhkfpggL3AvGH0x1RbpIuBW5ZluVMU4lhxgI
+
+###
+POST http://localhost:8080/api/kickstarters
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySUQiOiI1ZWNhODMwY2NhYmM2ZTM1NzBkMzllZmQiLCJpYXQiOjE1OTI3Mzk2NDcsImV4cCI6MTU5Mjc0Njg0N30.THPro9nC7oQXH-kkuNUQsWQ7-O6Ju81WTsCk6DHe-CU
+Content-Type: application/json
+
+{
+        "name": "Platformer game",
+        "endDate": "2020-06-29T21:00:00.000Z",
+        "picture": "https://www.pcgamesn.com/wp-content/uploads/2019/05/best-platform-games-celeste-header.jpg",
+        "shortDescription": "The best developers worldwide come together to make this amazing game.",
+        "detailedDescription": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent posuere varius lectus, et porttitor risus eleifend in."
+}
+###
+
+GET http://localhost:8080/api/balanceChanges/category/payment/salary

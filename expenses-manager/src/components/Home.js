@@ -1,7 +1,7 @@
 import React, {useEffect} from "react";
 import { connect } from "react-redux";
 
-export const Home = ({ auth }) => {
+export const Home = () => {
   useEffect(() => {
     console.log("Component Home did mount...")
     
@@ -16,7 +16,6 @@ export const Home = ({ auth }) => {
 };
 
 const mapStateToProps = (state) => ({
-    auth: state.auth
 });
 
 const mapDispatchToProps = {};

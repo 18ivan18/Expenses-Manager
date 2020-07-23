@@ -5,7 +5,6 @@ dotenv.config();
 const verifyRole = (role) => {
   return (req, res, next) => {
     const userId = req.userID;
-    console.log(`UserId: ${userId}`);
     if (!userId) {
       next({ status: 403, message: "No user id provided." });
     } else {

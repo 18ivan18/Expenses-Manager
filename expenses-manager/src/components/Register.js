@@ -2,11 +2,12 @@ import React from "react";
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
 import { connect } from "react-redux";
-import { setLoading } from "../features/users/AuthSlice";
+import { changeLoading } from "../features/loading/loadingSlice";
+import ExpensesAPI from "../API/ExpensesAPI";
 
 import "../css/Register.css";
 
-const Register = ({ auth, setLoading }) => {
+const Register = ({ auth, changeLoading }) => {
   const useFormFields = (initialValues) => {
     const [formFields, setFormFields] = useState(initialValues);
     const createChangeHandler = (e) =>
@@ -27,7 +28,7 @@ const Register = ({ auth, setLoading }) => {
 
   let history = useHistory();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (!formFields.firstName || !formFields.lastName) {
       setRegisterState({
@@ -48,31 +49,25 @@ const Register = ({ auth, setLoading }) => {
       });
       return;
     }
-    setLoading();
-    fetch("http://192.168.100.11:8080/api/users", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
+    changeLoading();
+    try {
+      const json = await ExpensesAPI.createUser({
         name: formFields.firstName + " " + formFields.lastName,
         email: formFields.email,
         password: formFields.password,
-      }),
-    })
-      .then((res) => res.json())
-      .then((json) => {
-        console.log("json", json);
-        if (json.success) {
-          setLoading();
-          history.push("/");
-        } else {
-          setRegisterState({
-            registerError: json.message,
-          });
-          setLoading();
-        }
       });
+      if (json.success) {
+        history.push("/");
+        //TODO toast
+      } else {
+        setRegisterState({
+          registerError: json.message,
+        });
+      }
+    } catch (error) {
+      console.log(error);
+    }
+    changeLoading();
   };
   const validator = require("email-validator");
 
@@ -216,7 +211,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    setLoading: () => dispatch(setLoading()),
+    changeLoading: () => dispatch(changeLoading()),
   };
 };
 

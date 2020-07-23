@@ -11,7 +11,7 @@ const userSchema = new mongoose.Schema({
     default:
       "https://image.shutterstock.com/image-vector/male-silhouette-avatar-profile-picture-260nw-199246382.jpg",
   },
-  gender: { type: String, enum: ["M", "F"] },
+  gender: { type: String, enum: ["M", "F"], default: "M" },
   role: { type: String, default: "user", enum: ["user", "admin"] },
   description: { type: String, default:"", maxLength: 512 },
   validity: { type: String, default: "active", enum: ["active", "suspended", "deactivated"] },

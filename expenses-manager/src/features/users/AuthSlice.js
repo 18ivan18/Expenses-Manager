@@ -1,23 +1,32 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getFromStorage } from "../../utils/storage";
+import ExpensesAPI from "../../API/ExpensesAPI";
 
 export const validateUser = createAsyncThunk(
   "authentication/validateUser",
-  async (callback) => {
+  async () => {
     const obj = getFromStorage("the_main_app");
     if (obj && obj.token) {
-            const { token } = obj;
-      const response = await fetch(
-        "http://192.168.100.11:8080/api/account/verify",
-        {
-          method: "GET",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-      return await response.json();
-      
+      const { token } = obj;
+      return ExpensesAPI.validateUser(token);
+    }
+  }
+);
+
+export const loginUser = createAsyncThunk(
+  "authentication/loginUser",
+  async (credentials) => {
+    return ExpensesAPI.login(credentials);
+  }
+);
+
+export const logoutUser = createAsyncThunk(
+  "authentication/logoutUser",
+  async (cb) => {
+    const obj = getFromStorage("the_main_app");
+    if (obj && obj.token) {
+      const { token } = obj;
+      return ExpensesAPI.logout(token);
     }
   }
 );
@@ -26,47 +35,52 @@ const AuthSlice = createSlice({
   name: "authentication",
   initialState: {
     loggedIn: false,
-    user: {},
-    loading: false,
-    token: "",
+    user: null,
+    token: null,
+    message: "",
   },
   reducers: {
-    login: (state, input) => {
-      // console.log(input)
-      state.loggedIn = input.payload.loggedIn;
-      state.user = input.payload.user;
-      state.token = input.payload.token;
-    },
-    setLoading: (state) => {
-      state.loading = !state.loading;
-    },
-  },
-  extraReducers: {
-    [validateUser.pending]: (state, action) => {
-    if (state.loading === false) {
-      state.loading = true
+    clearMessage: (state, action) => {
+      state.message = ""
     }
   },
+  extraReducers: {
     // you can mutate state directly, since it is using immer behind the scenes
     [validateUser.fulfilled]: (state, action) => {
-      if (state.loading === true) {
-        state.loading = false;
-        state.loggedIn = action.payload.success;
-        state.message = action.payload.message
-        state.user = action.payload.user
-        state.token = action.payload.token
-      }
+      state.loggedIn = action.payload.success;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
     },
     [validateUser.rejected]: (state, action) => {
-      // console.log(action.payload);
-      state.loading = false;
-      state.message = action.payload.message
+      console.log(action.payload)
+      state.message = action.payload.message;
     },
+    [loginUser.fulfilled]: (state, action) => {
+      state.loggedIn = action.payload.success;
+      state.user = action.payload.user;
+      state.token = action.payload.token;
+      state.message = action.payload.message;
+    },
+    [loginUser.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    [logoutUser.fulfilled]: (state, action) => {
+      if(action.payload.success) {
+      state.loggedIn = false;
+      state.user = null;
+      state.token = null;
+      state.message = action.payload.message;
+      }
+    },
+    [logoutUser.rejected]: (state, action) => {
+      state.message = action.payload.message;
+    },
+    
   },
 });
 const { actions, reducer } = AuthSlice;
 
 export const selectAuth = (state) => state.auth;
 
-export const { login, setLoading } = actions;
+export const { clearMessage } = actions;
 export default reducer;

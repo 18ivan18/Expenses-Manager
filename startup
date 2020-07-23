@@ -1,0 +1,6 @@
+#!/bin/bash
+
+cd ./expenses-manager
+npm start&
+cd ./server
+npm start&

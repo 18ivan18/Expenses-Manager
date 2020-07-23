@@ -1,11 +1,13 @@
 import React from "react";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectLoading } from "../features/loading/loadingSlice";
 import LoaderGif from "../assests/loading.gif";
-import "../css/loading.css"
+import "../css/loading.css";
 
-export const FullPageLoader = ({ auth }) => {
+export const FullPageLoader = () => {
+  const loading = useSelector(selectLoading);
   return (
-    auth.loading && (
+    loading && (
       <div className="loader-container">
         <div className="loader">
           <img alt="Loading spinner" src={LoaderGif} />
@@ -15,8 +17,4 @@ export const FullPageLoader = ({ auth }) => {
   );
 };
 
-const mapStateToProps = (state) => ({
-  auth: state.auth,
-});
-
-export default connect(mapStateToProps)(FullPageLoader);
+export default FullPageLoader;
