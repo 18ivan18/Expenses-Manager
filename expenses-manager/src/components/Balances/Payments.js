@@ -70,7 +70,6 @@ const Payments = ({ date }) => {
   return (
     <div>
       <div className="row">
-
         <div className="col s12" style={{ marginTop: 50 }}>
           <div className="col s6 z-depth-1">
             {categories &&
@@ -96,11 +95,15 @@ const Payments = ({ date }) => {
                   key={c.name}
                   style={{ paddingTop: "25px", textAlign: "right" }}
                 >
-                  <ProgressBar
-                    marginBottom="0px"
-                    percent={percent[c.name].percent}
-                  ></ProgressBar>
-                  <span>{percent[c.name].money}$</span>
+                  {percent[c.name] && (
+                    <div>
+                      <ProgressBar
+                        marginBottom="0px"
+                        percent={percent[c.name].percent}
+                      ></ProgressBar>
+                      <span>{percent[c.name].money}$</span>
+                    </div>
+                  )}  
                 </div>
               ))}
           </div>
@@ -139,43 +142,6 @@ const Payments = ({ date }) => {
         </div>
       </div>
 
-      {/* FIXED ACTION BUTTON */}
-      <div className="fixed-action-btn">
-        <a className="btn-floating btn-large red">
-          <i className="large material-icons">mode_edit</i>
-        </a>
-        <ul>
-          <li>
-            <div>
-              Add Expense
-              <button
-                className="btn-floating red modal-trigger"
-                data-target="modal1"
-              >
-                <i className="material-icons">add</i>
-              </button>
-            </div>
-          </li>
-          <li>
-            <div>
-              Add Income
-              <button
-                data-target="modal2"
-                className="btn-floating green darken-1 modal-trigger"
-              >
-                <i className="material-icons">add</i>
-              </button>
-            </div>
-          </li>
-        </ul>
-      </div>
-
-      <div id="modal1" className="modal">
-        <BalanceChange expense date={date} />
-      </div>
-      <div id="modal2" className="modal">
-        <BalanceChange expense={false} date={date} />
-      </div>
     </div>
   );
 };

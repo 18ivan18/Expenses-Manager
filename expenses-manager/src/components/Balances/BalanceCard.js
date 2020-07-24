@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { fetchUserById } from "../../features/users/UsersSlice";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function BalanceCard({ balance, showCategory }) {
+export default function BalanceCard({ balance, showCategory, date }) {
   const auth = useSelector((state) => state.auth);
   const dispatch = useDispatch();
 
@@ -17,7 +17,7 @@ export default function BalanceCard({ balance, showCategory }) {
   return (
     (user && (
       <div>
-        <div className="col s12 z-depth-1" style={{ border: "1px solid #EEE", backgroundColor: balance ? "#ffcccb" : "#90EE90" }}>
+        <div className="col s12 z-depth-1" style={{ border: "1px solid #EEE", backgroundColor: balance.type === "income" ? "#90EE90" : "#ffcccb" }}>
           <div className="row" style={{ borderBottom: "2px dotted black" }}>
             {!showCategory ? (
               <div>
@@ -77,6 +77,7 @@ export default function BalanceCard({ balance, showCategory }) {
             <p style={{ margin: 0 }}>Notes:</p>
             <p style={{ margin: 0 }}>{balance.description}</p>
           </div>
+          {date && <div>{date}</div>}
         </div>
       </div>
     )) ||

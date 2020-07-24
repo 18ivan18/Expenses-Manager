@@ -19,12 +19,18 @@ export const BalanceChange = ({
   const dis = useDispatch();
   const auth = useSelector(selectAuth);
   const message = useSelector(selectMessage);
-  const categorys = useSelector((state) => state.balance.categorys);
+  const incomesCategorys = useSelector((state) => state.balance.categorys);
+  const paymentsCategorys = useSelector(
+    (state) => state.balance.paymentsCategories
+  );
+  const categorys = expense ? paymentsCategorys : incomesCategorys;
 
   const initialState = {
     amount: 0,
     description: "",
     category: category ? category : "",
+    newCategory: "",
+    newCategoryPicture: "",
   };
 
   useEffect(() => {
@@ -47,10 +53,16 @@ export const BalanceChange = ({
         expense,
         date,
         userID,
-        category: category ? category : formData.category,
+        category: category
+          ? category
+          : formData.category
+          ? formData.category
+          : formData.newCategory,
         categoryPicture: categoryPicture
           ? categoryPicture
-          : categorys.filter((c) => c.name === formData.category)[0].picture,
+          : formData.category
+          ? categorys.filter((c) => c.name === formData.category)[0].picture
+          : formData.newCategoryPicture,
       })
     ).then(() => dis(changeLoading()));
 
@@ -80,22 +92,43 @@ export const BalanceChange = ({
           <label htmlFor="amount">Amount</label>
           {!category && (
             <div className="input-field col s12">
-              <select
-                value={formData.category}
-                id="category"
-                onChange={handleChange}
-              >
-                <option value="" disabled>
-                  Choose your category
-                </option>
-                {categorys &&
-                  categorys.map((c) => (
-                    <option data-icon={c.picture} key={c.name}>
-                      {c.name}
-                    </option>
-                  ))}
-              </select>
-              <label>Category</label>
+              {!formData.newCategory && !formData.newCategoryPicture && (
+                <div>
+                  <select
+                    value={formData.category}
+                    id="category"
+                    onChange={handleChange}
+                  >
+                    <option value="">Choose your category</option>
+                    {categorys &&
+                      categorys.map((c) => (
+                        <option data-icon={c.picture} key={c.name}>
+                          {c.name}
+                        </option>
+                      ))}
+                  </select>
+                  <label>Category</label>
+                </div>
+              )}
+
+              {!formData.category && (
+                <div>
+                  <input
+                    placeholder="New category"
+                    id="newCategory"
+                    value={formData.newCategory}
+                    onChange={handleChange}
+                  />
+                  <label>New category</label>
+                  <input
+                    placeholder="New category picture"
+                    id="newCategoryPicture"
+                    value={formData.newCategoryPicture}
+                    onChange={handleChange}
+                  />
+                  <label>New category picture</label>
+                </div>
+              )}
             </div>
           )}
           <textarea

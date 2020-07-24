@@ -208,7 +208,7 @@ class ExpensesAPI {
       body: JSON.stringify(group),
     });
     const groupJSON = await usersResp.json();
-    return groupJSON.result;
+    return groupJSON;
   }
 
   async getGroupsByUserId(id, token) {

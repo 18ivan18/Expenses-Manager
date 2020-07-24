@@ -112,7 +112,7 @@ export const CreateKickstarter = ({ auth }) => {
         </a>
           {message && (
             <div
-              style={{ fontSize: "18px" }}
+              style={{ fontSize: "18px", textAlign: "center" }}
               className={message.success ? "green-text" : "red-text"}
             >
               {message}

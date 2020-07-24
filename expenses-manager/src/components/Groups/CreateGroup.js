@@ -15,6 +15,7 @@ export default function CreateGroup() {
     description: "",
     picture: "",
   };
+  const [message, setMessage] = useState(undefined);
   const auth = useSelector(selectAuth);
 
   const handleChange = (e) => {
@@ -25,10 +26,11 @@ export default function CreateGroup() {
   const handleSubmit = async () => {
     try {
       dispatch(changeLoading());
-      await ExpensesAPI.createGroup(auth.token, {
+      const result = await ExpensesAPI.createGroup(auth.token, {
         participents: [auth.user._id],
         ...formData,
       });
+      setMessage(result.message);
       await dispatch(
         getGroupsByUserId({ id: auth.user._id, token: auth.token })
       );
@@ -43,7 +45,9 @@ export default function CreateGroup() {
   return (
     <div className="z-depth-1 grey lighten-4 row container">
       <div style={{ minHeight: "600px" }}>
-        <h1>Create new group</h1>
+        <h1 style={{ fontFamily: "Times New Roamn", textAlign: "center" }}>
+          Create new group
+        </h1>
         <form>
           <input
             placeholder="Name"
@@ -77,13 +81,24 @@ export default function CreateGroup() {
         </form>
       </div>
       <div>
+        {message && (
+          <div
+            style={{ fontSize: "18px", textAlign: "center" }}
+            className={message.success ? "green-text" : "red-text"}
+          >
+            {message}
+          </div>
+        )}
         <a
           className="waves-effect waves-green btn-flat left"
           onClick={() => history.goBack()}
         >
           Cancel
         </a>
-        <a className="waves-effect waves-green btn-flat right" onClick={handleSubmit}>
+        <a
+          className="waves-effect waves-green btn-flat right"
+          onClick={handleSubmit}
+        >
           Create
         </a>
       </div>
