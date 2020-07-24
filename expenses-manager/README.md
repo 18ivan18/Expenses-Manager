@@ -1,5 +1,13 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app), using the [Redux](https://redux.js.org/) and [Redux Toolkit](https://redux-toolkit.js.org/) template.
 
+## Before running
+
+Make sure to do the following preparations before running the project. Go to the main /server directory and make sure you create .env file with URI and ACESS_TOKEN_SECRET variables set. URI is the connection string to MongoDB. This project uses mongo as database source.  ACESS_TOKEN_SECRET is need for the jwt authentication.
+
+## Running
+
+First start the server using `npm start` in the expenses-manager/server directory then `npm start` the client in the /expenses-manager directory.
+
 ## Available Scripts
 
 In the project directory, you can run:
