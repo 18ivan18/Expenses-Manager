@@ -64,42 +64,6 @@ class ExpensesAPI {
     return await postsResp.json();
   }
 
-  // async updatePost(post) {
-  //     const postsResp = await fetch(
-  //         BLOG_API_BASE + "/posts/" + encodeURIComponent(post.id),
-  //         {
-  //             method: 'PUT',
-  //             headers: {
-  //                 'Content-Type': 'application/json',
-  //             },
-  //             body: JSON.stringify(post)
-  //         }
-  //     );
-  //     const postUpdated = await postsResp.json();
-  //     if(postsResp.status >= 400) { //error status code
-  //         console.log("Error updating Post:", postUpdated);
-  //         throw(postUpdated.message);
-  //     }
-  //     console.log("POST updated successfully", postUpdated);
-  //     return postUpdated;
-  // }
-
-  // async deletePostById(id) {
-  //     const deleteResp = await fetch(
-  //         BLOG_API_BASE + "/posts/"+ encodeURIComponent(id),
-  //         {
-  //             method: 'DELETE'
-  //         }
-  //     );
-  //     const deleted = await deleteResp.json();
-  //     if(deleteResp.status >= 400) { //error status code
-  //         console.log("Error deleting Post:", deleted);
-  //         throw(deleted.message);
-  //     }
-  //     console.log("POST deleted successfully", deleted);
-  //     return deleted;
-  // }
-
   async deleteUserById(id, auth) {
     const deleteResp = await fetch(`${EXPENSES_API_BASE}/users/${id}`, {
       method: "DELETE",
@@ -255,7 +219,11 @@ class ExpensesAPI {
         userId,
       }),
     });
-    return await response.json();
+    const result = await response.json();
+    const id = result.result.to;
+    const to = await this.findUserById(id, token);
+    result.to = to;
+    return result;
   }
 
   async getAllInvites(id, token) {

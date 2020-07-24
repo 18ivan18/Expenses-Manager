@@ -5,7 +5,7 @@ import Payments from "./Payments";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 import "../../css/Balances/BalanceContainer.css";
-import BalanceChange from "./BalanceChange"
+import BalanceChange from "./BalanceChange";
 
 const BalanceContainer = () => {
   useEffect(() => {
@@ -98,10 +98,22 @@ const BalanceContainer = () => {
         </ul>
       </div>
       <div id="modal1" className="modal">
-        <BalanceChange expense date={date} />
+        <BalanceChange
+          expense
+          date={date}
+          cb={() => {
+            document.body.style.overflow = "visible";
+          }}
+        />
       </div>
       <div id="modal2" className="modal">
-        <BalanceChange expense={false} date={date} />
+        <BalanceChange
+          expense={false}
+          date={date}
+          cb={() => {
+            document.body.style.overflow = "visible";
+          }}
+        />
       </div>
     </div>
   );

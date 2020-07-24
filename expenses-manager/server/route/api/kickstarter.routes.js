@@ -5,7 +5,6 @@ const BalanceChange = require("../../models/balanceChangeSchema");
 const User = require("../../models/userSchema");
 const mongoose = require("mongoose");
 const verifyToken = require("../../util/verify-token");
-const verifyRole = require("../../util/verify-role");
 const error = require("../../util/utils").error;
 
 router.get("/", async (req, res) => {
@@ -15,13 +14,16 @@ router.get("/", async (req, res) => {
     for (let index = 0; index < kickstarters.length; index++) {
       const incomes = await BalanceChange.find({
         category: kickstarters[index].name,
+        type: "income",
       });
       result[index] = { ...kickstarters[index]._doc, incomes };
       if (result[index].incomes.length !== 0) {
         result[index].pledged = result[index].incomes
           .map((inc) => inc.amount)
           .reduce((accumulator, currentElem) => accumulator + currentElem);
-        result[index].backers = new Set(result[index].incomes.map((inc) => inc.userID)).size;
+        result[index].backers = new Set(
+          result[index].incomes.map((inc) => inc.userID)
+        ).size;
       } else {
         result[index].pledged = 0;
         result[index].backers = 0;
@@ -29,11 +31,15 @@ router.get("/", async (req, res) => {
       const element = kickstarters[index];
       const user = await User.findById(element.authorId);
       user.password = undefined;
-      result[index] = { ...kickstarters[index]._doc, author: user, ...result[index] };
+      result[index] = {
+        ...kickstarters[index]._doc,
+        author: user,
+        ...result[index],
+      };
     }
     res.status(200).json(result);
   } catch (err) {
-    console.log(err)
+    console.log(err);
     error(req, res, 500, "Error getting all kickstarters", err);
   }
 });
@@ -43,7 +49,10 @@ router.get("/:id", async (req, res) => {
   try {
     const kickstarter = await Kickstarter.findById(id);
     if (kickstarter) {
-      const incomes = await BalanceChange.find({ category: kickstarter.name });
+      const incomes = await BalanceChange.find({
+        category: kickstarter.name,
+        type: "income",
+      });
       const result = { ...kickstarter._doc, incomes };
       if (result.incomes.length !== 0) {
         result.pledged = result.incomes

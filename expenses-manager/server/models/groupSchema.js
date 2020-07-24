@@ -12,9 +12,6 @@ const groupSchema = mongoose.Schema({
   participents: [
     { type: mongoose.Schema.Types.ObjectId, ref: "User", default: [] },
   ],
-  // payments: [
-  //   { type: mongoose.Schema.Types.ObjectId, ref: "balanceChange", default: [] },
-  // ],
   description: {
     type: String,
     required: true,

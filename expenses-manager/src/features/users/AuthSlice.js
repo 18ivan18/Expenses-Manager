@@ -53,7 +53,7 @@ const AuthSlice = createSlice({
     },
     [validateUser.rejected]: (state, action) => {
       console.log(action.payload)
-      state.message = action.payload.message;
+      // state.message = action.payload.message;
     },
     [loginUser.fulfilled]: (state, action) => {
       state.loggedIn = action.payload.success;

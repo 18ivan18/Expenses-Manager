@@ -43,7 +43,7 @@ export const CreateKickstarter = ({ auth }) => {
   return (
     <div className="z-depth-1 grey lighten-4 row container">
       {!auth.loggedIn && <Redirect to="/login"></Redirect>}
-      <h1>Create kickstarter</h1>
+      <h1 style={{fontFamily: "Times New Roman", textAlign: "center"}}>Create kickstarter</h1>
       <div className="row">
         <form className="col s12">
           <div className="row">

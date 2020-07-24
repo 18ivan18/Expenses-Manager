@@ -101,6 +101,7 @@ const Incomes = ({ date }) => {
                       <ProgressBar
                         marginBottom="0px"
                         percent={percent[c.name].percent}
+                        bgcolor="#90EE90"
                       ></ProgressBar>
                       <span>{percent[c.name].money}$</span>{" "}
                     </div>

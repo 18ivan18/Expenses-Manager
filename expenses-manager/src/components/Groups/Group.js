@@ -21,9 +21,9 @@ export const Group = ({ auth, group, getGroupsByUserId }) => {
         group._id,
         auth.token
       );
-      if(result.success) {
+      if (result.success) {
         window.M.toast({
-          html: `<div>User '${result.result.name}' has been invited successfully.</div>`,
+          html: `<div>User '${result.to.name}' has been invited successfully.</div>`,
           classes: "success",
           displayLength: 8000,
         });
@@ -82,9 +82,7 @@ export const Group = ({ auth, group, getGroupsByUserId }) => {
     window.M.Autocomplete.init(elems, {
       data: result,
       onAutocomplete: () => {
-        setAutocomplete(
-          document.getElementById(`autocomplete-input`).value
-        );
+        setAutocomplete(document.getElementById(`autocomplete-input`).value);
       },
     });
   }, [data, group]);
@@ -144,9 +142,15 @@ export const Group = ({ auth, group, getGroupsByUserId }) => {
           <h1>Goal : {group.goal}</h1>
           <Progress
             bgcolor="pink"
-            completed={group.payments.length === 0 ? 0 : group.payments
-              .map((p) => p.amount)
-              .reduce((accumulator, currentElem) => accumulator + currentElem)}
+            completed={
+              group.payments.length === 0
+                ? 0
+                : group.payments
+                    .map((p) => p.amount)
+                    .reduce(
+                      (accumulator, currentElem) => accumulator + currentElem
+                    )
+            }
             outOf={group.goal}
             height="50px"
           ></Progress>
@@ -156,8 +160,11 @@ export const Group = ({ auth, group, getGroupsByUserId }) => {
         <h1>
           Supporters :{" "}
           {group.participents.map((user) => (
-            <div style={{margin: "10px"}} key={user.name}><Link 
-            style={{ color: "#000000" }} to={`/profile/${user._id}`}>${user.name}</Link></div>
+            <div style={{ margin: "10px" }} key={user.name}>
+              <Link style={{ color: "#000000" }} to={`/profile/${user._id}`}>
+                ${user.name}
+              </Link>
+            </div>
           ))}
         </h1>
 
@@ -199,7 +206,10 @@ export const Group = ({ auth, group, getGroupsByUserId }) => {
         <BalanceChange
           expense
           date={new Date()}
-          cb={() => getGroupsByUserId({ id: auth.user._id, token: auth.token })}
+          cb={() => {
+            getGroupsByUserId({ id: auth.user._id, token: auth.token });
+            document.body.style.overflow = "visible";
+          }}
           category={group.name}
           categoryPicture={group.picture}
         />

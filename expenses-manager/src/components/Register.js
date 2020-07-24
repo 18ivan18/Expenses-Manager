@@ -58,7 +58,12 @@ const Register = ({ auth, changeLoading }) => {
       });
       if (json.success) {
         history.push("/");
-        //TODO toast
+        console.log(json)
+        window.M.toast({
+          html: `<div>User '${json.result.name}' has been registered successfully.</div>`,
+          classes: "success",
+          displayLength: 8000,
+        });
       } else {
         setRegisterState({
           registerError: json.message,

@@ -15,6 +15,8 @@ export const BalanceChange = ({
   cb,
   userID,
   categoryPicture,
+  postTwice,
+  secondID,
 }) => {
   const dis = useDispatch();
   const auth = useSelector(selectAuth);
@@ -44,9 +46,30 @@ export const BalanceChange = ({
     setFormData({ ...formData, category: category });
   }, [category]);
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     dis(changeLoading());
-    dis(
+    if (postTwice) {
+      await dis(
+        postNewIncome({
+          auth,
+          formData,
+          expense: !expense,
+          date,
+          secondID,
+          category: category
+            ? category
+            : formData.category
+            ? formData.category
+            : formData.newCategory,
+          categoryPicture: categoryPicture
+            ? categoryPicture
+            : formData.category
+            ? categorys.filter((c) => c.name === formData.category)[0].picture
+            : formData.newCategoryPicture,
+        })
+      );
+    }
+    await dis(
       postNewIncome({
         auth,
         formData,
@@ -64,7 +87,8 @@ export const BalanceChange = ({
           ? categorys.filter((c) => c.name === formData.category)[0].picture
           : formData.newCategoryPicture,
       })
-    ).then(() => dis(changeLoading()));
+    );
+    dis(changeLoading());
 
     setFormData(initialState);
     if (cb) {

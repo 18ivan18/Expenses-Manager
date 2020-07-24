@@ -37,7 +37,7 @@ export const Kickstarters = ({
   return (
     <div style={{ minHeight: "800px" }}>
       <div className="container row z-depth-1 grey lighten-4">
-        <h1>Kickstarters</h1>
+        <h1 style={{fontFamily: "Times New Roman", textAlign: "center"}}>Kickstarters</h1>
         <div>
           <input
             id="search"

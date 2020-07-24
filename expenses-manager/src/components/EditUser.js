@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { useParams, useHistory } from "react-router-dom";
 import { fetchUserById, updateUser } from "../features/users/UsersSlice";
 import { changeLoading } from "../features/loading/loadingSlice";
+import { validateUser } from "../features/users/AuthSlice";
 
 export const EditUser = ({
   auth,
@@ -11,6 +12,7 @@ export const EditUser = ({
   fetchUserById,
   message,
   updateUser,
+  validateUser
 }) => {
   const { id } = useParams();
   const history = useHistory();
@@ -51,8 +53,8 @@ export const EditUser = ({
     }
     changeLoading();
     const rs = await updateUser({ id, auth, user: filtered });
+    validateUser();
     changeLoading();
-    console.log(rs);
     if (rs.payload.success) {
       history.push(`/profile/${rs.payload.user._id}`);
       window.M.toast({
@@ -250,6 +252,7 @@ const mapDispatchToProps = (dispatch) => {
     changeLoading: () => dispatch(changeLoading()),
     fetchUserById: (id, auth) => dispatch(fetchUserById(id, auth)),
     updateUser: (id, auth, user) => dispatch(updateUser(id, auth, user)),
+    validateUser: () => dispatch(validateUser()),
   };
 };
 

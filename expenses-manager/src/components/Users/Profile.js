@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { changeLoading } from "../../features/loading/loadingSlice";
 import { fetchUserById } from "../../features/users/UsersSlice";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams, useHistory, Redirect } from "react-router-dom";
 import { parseDate } from "../../utils/dateParser";
 import KickstarterCard from "../Kickstarters/KickstarterCard";
 
@@ -49,6 +49,7 @@ export const Profile = ({
 
   return (
     <center>
+      {!auth.loggedIn && <Redirect to="/login"></Redirect>}
       <div
         className="z-depth-1 grey lighten-4 row"
         style={{
